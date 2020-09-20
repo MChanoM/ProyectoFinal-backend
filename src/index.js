@@ -31,3 +31,7 @@ app.get('/', (req, res) => {
 app.get('/usuarios', (req, res) => {
     res.send("estoy en la pagina de usuarios")
 })
+
+app.get('api/categorias', (req, res) => {
+    res.send("Estoy en las categorias")
+})
