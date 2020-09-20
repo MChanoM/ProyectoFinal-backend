@@ -1,1 +1,8 @@
-// cree el archivo para que no quede la carpeta vacia
+const noticiaCtrl = {};
+
+noticiaCtrl.getPrueba = (req, res) => {
+    res.send("esto es una prueba")
+}
+
+
+export default noticiaCtrl;
