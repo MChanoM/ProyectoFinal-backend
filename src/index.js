@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import './database';
+import noticiaRouter from './routes/noticia.routes';
+import categoriaRouter from './routes/categoria.routes';
 
 const app = express();
 
@@ -24,14 +26,7 @@ app.use(express.urlencoded({ extended:true}));
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Rutas
-app.get('/', (req, res) => {
-    res.send("hola mundo :D")
-})
 
-app.get('/usuarios', (req, res) => {
-    res.send("estoy en la pagina de usuarios")
-})
+app.use('/api/noticias', noticiaRouter);
 
-app.get('api/categorias', (req, res) => {
-    res.send("Estoy en las categorias")
-})
+app.use('/api/categorias', categoriaRouter);
