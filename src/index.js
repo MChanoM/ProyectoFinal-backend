@@ -5,6 +5,7 @@ import path from 'path';
 import './database';
 import noticiaRouter from './routes/noticia.routes';
 import categoriaRouter from './routes/categoria.routes';
+import loginRouter from './routes/login.routes';
 
 const app = express();
 
@@ -30,3 +31,5 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use('/api/noticias', noticiaRouter);
 
 app.use('/api/categorias', categoriaRouter);
+
+app.use('/api/login', loginRouter);
