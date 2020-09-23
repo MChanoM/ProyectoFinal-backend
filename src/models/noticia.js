@@ -1,15 +1,18 @@
 import mongoose, {Schema} from 'mongoose';
 
 const noticiaSchema = new Schema({
+    noticiaDestacada: {
+        type: String
+    },
     tituloNoticia: {
         type: String,
-        maxlength: 100,
+        maxlength: 300,
         required: true,
         unique: true
     },
     descripcionNoticia: {
         type: String,
-        maxlength: 700,
+        maxlength: 1500,
         required: true
     },
     imagen: {

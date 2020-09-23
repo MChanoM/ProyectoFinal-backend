@@ -8,9 +8,10 @@ noticiaCtrl.getPrueba = (req, res) => {
 noticiaCtrl.crearNoticia = async (req, res) => {
     console.log(req.body)
     try {
-        const { tituloNoticia, descripcionNoticia, imagen, cuerpoNoticia, autorNoticia, fechaNoticia, categoria } = req.body;
+        const { noticiaDestacada, tituloNoticia, descripcionNoticia, imagen, cuerpoNoticia, autorNoticia, fechaNoticia, categoria } = req.body;
 
         const noticiaNueva = new Noticia({
+            noticiaDestacada: noticiaDestacada,
             tituloNoticia: tituloNoticia,
             descripcionNoticia: descripcionNoticia,
             imagen: imagen,
@@ -50,8 +51,8 @@ noticiaCtrl.listarNoticias = async (req, res) => {
 
 noticiaCtrl.borrarNoticia = async (req, res) => {
     try{
-        console.log(req.params.id); //extraemos el parametro id de la url
-        await Noticia.findByIdAndDelete(req.params.id);
+        console.log(req.params.idNoticias); //extraemos el parametro id de la url
+        await Noticia.findByIdAndDelete(req.params.idNoticias);
         res.status(200).json({
             mensaje: "Se eliminó la noticia"
         })
@@ -65,7 +66,7 @@ noticiaCtrl.borrarNoticia = async (req, res) => {
 
 noticiaCtrl.editarNoticia = async (req, res) => {
     try{
-        await Noticia.findByIdAndUpdate(req.params.id, req.body);
+        await Noticia.findByIdAndUpdate(req.params.idNoticias, req.body);
         res.status(200).json({
             mensaje: "Se actualizó la noticia"
         })
