@@ -6,7 +6,7 @@ import './database';
 import noticiaRouter from './routes/noticia.routes';
 import categoriaRouter from './routes/categoria.routes';
 import loginRouter from './routes/login.routes';
-
+// import verifyToken from './controllers/verifytoken';
 const app = express();
 
 // crear una variable port
@@ -21,7 +21,8 @@ app.listen(app.get('port'), () => {
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended:true}));
+app.use(express.urlencoded({ extended:true }));
+// app.use(verifyToken);
 
 // aqui agrego la carpeta public
 app.use(express.static(path.join(__dirname, "../public")));
@@ -32,4 +33,4 @@ app.use('/api/noticias', noticiaRouter);
 
 app.use('/api/categorias', categoriaRouter);
 
-app.use('/api/login', loginRouter);
+app.use('/api/users', loginRouter);
