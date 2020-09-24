@@ -23,10 +23,11 @@ loginCtrl.signUp = async (req, res) => {
     nuevoUsuario.password = await nuevoUsuario.encryptPassword(
       nuevoUsuario.password
     );
-    console.log(nuevoUsuario);
+    // console.log(nuevoUsuario);
+    // guardo el nuevo usuario en la bd
     await nuevoUsuario.save();
 
-    // genero el token
+    // genero el token aunque como la sesion está cerrada no sería necesario todavia
     const token = jsonwebtoken.sign({ id: nuevoUsuario._id }, config.secret, {
       expiresIn: 86400,
     });
@@ -37,11 +38,11 @@ loginCtrl.signUp = async (req, res) => {
       mensaje: "Usuario creado correctamente",
     });
   } catch (error) {
+    console.log(error);
     console.log("Error en signup" + error);
     res.status(500).json({
       mensaje: "Error al crear usuario",
     });
-    console.log(error);
   }
 };
 
@@ -52,7 +53,8 @@ loginCtrl.login = async (req, res) => {
     const usuarioLogueado = await Usuario.findOne({
       usuario: usuario,
     });
-    // valido password
+    if(usuarioLogueado){
+      // valido password
     const passwordIsValid = await usuarioLogueado.validatePassword(password);
     // console.log(passwordIsValid);
     if (!passwordIsValid) {
@@ -78,10 +80,16 @@ loginCtrl.login = async (req, res) => {
       auth: true,
       token: token,
     });
+    }else{
+      return res.status(404).json({
+        mensaje:"El usuario no existe"
+      })
+    }
+    
   } catch (error) {
-    console.log("Error de login:" + error);
+    console.log(error);
     res.status(500).json({
-      mensaje: "Usuario no registrado",
+      mensaje: "Error al loguearse",
     });
   }
 };
