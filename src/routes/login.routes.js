@@ -6,15 +6,14 @@ const { login, logout, signUp, crearTipoUsuario, autenticar, eliminarUsuario } =
 
 const router = Router();
 
+router.route('/signup')
+    .post(signUp) // en el signup tambien se genera un token
+
 router.route('/login')
     .post(login) // en el login se genera el token
 
 router.route('/logout')
     .post(verifyToken,logout)
-
-
-router.route('/signup')
-    .post(signUp) // en el signup tambien se genera un token
 
     // el me sería para autenticar cada vez que el usuario quiera hacer algo
 router.route('/me')
@@ -23,8 +22,9 @@ router.route('/me')
 router.route('/crear-tipo')
     .post(crearTipoUsuario)
 
-router.route('/eliminar-usuario/:id')
-    .delete(eliminarUsuario)
+// eliminar usuario es solo para entorno de desarrollo
+// router.route('/eliminar-usuario/:id')
+//     .delete(eliminarUsuario)
 
 
 export default router;

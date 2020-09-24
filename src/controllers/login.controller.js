@@ -5,86 +5,6 @@ import config from "../config";
 
 const loginCtrl = {};
 
-// LOGIN
-loginCtrl.login = async (req, res) => {
-  try {
-    const { usuario, password } = req.body;
-    const usuarioLogueado = await Usuario.findOne({
-      usuario: usuario,
-    });
-    // valido password
-    const passwordIsValid = await usuarioLogueado.validatePassword(password);
-    // console.log(passwordIsValid);
-    if (!passwordIsValid) {
-      return res.status(401).json({
-        auth: false,
-        token: null,
-        mensaje: "La contraseña es incorrecta",
-      });
-    }
-    // si el password es valido genero el token
-    const token = jsonwebtoken.sign(
-      { id: usuarioLogueado._id },
-      config.secret,
-      {
-        expiresIn: 60 * 60 * 24,
-      }
-    );
-      // modifico el sessionState a true para que pueda loguearse
-      usuarioLogueado.sessionState = true;
-      usuarioLogueado.save();
-
-    res.status(200).json({
-      auth: true,
-      token: token,
-    });
-  } catch (error) {
-    console.log("Error de login:" + error);
-    res.status(500).json({
-      mensaje: "Usuario no registrado",
-    });
-  }
-};
-
-
-//LOGOUT
-loginCtrl.logout = async (req, res) => {
-  try{
-    // busco con el token
-    
-    const usuarioBuscado = await Usuario.findById(req.body.usuarioId);
-    if(usuarioBuscado){
-      // validamos primero el session state
-      if(usuarioBuscado.sessionState){
-        // cerramos la sesion
-        usuarioBuscado.sessionState = false;
-        usuarioBuscado.save();
-        return res.status(200).json({
-          auth:true,
-          mensaje:'Sesion cerrada correctamente'
-        })
-      }else{
-        //si la sesion ya está cerrada devolver error
-        return res.status(500).json({
-          mensaje:"La sesion no está abierta"
-        })
-      }
-    }else{
-      return res.status(404).json({
-        mensaje:'Usuario no encontrado'
-      })
-    }
-
-  }catch(error){
-    console.log(error);
-    return res.status(500).json({
-      auth:false,
-      token:null,
-      mensaje: 'Error al cerrar sesion'
-    })
-  }
-}
-
 // registracion
 loginCtrl.signUp = async (req, res) => {
   try {
@@ -96,7 +16,7 @@ loginCtrl.signUp = async (req, res) => {
       userType,
       userActive,
       email,
-      sessionState
+      sessionState,
     });
 
     // encripto el password antes de guardarlo
@@ -122,6 +42,84 @@ loginCtrl.signUp = async (req, res) => {
       mensaje: "Error al crear usuario",
     });
     console.log(error);
+  }
+};
+
+// LOGIN
+loginCtrl.login = async (req, res) => {
+  try {
+    const { usuario, password } = req.body;
+    const usuarioLogueado = await Usuario.findOne({
+      usuario: usuario,
+    });
+    // valido password
+    const passwordIsValid = await usuarioLogueado.validatePassword(password);
+    // console.log(passwordIsValid);
+    if (!passwordIsValid) {
+      return res.status(401).json({
+        auth: false,
+        token: null,
+        mensaje: "La contraseña es incorrecta",
+      });
+    }
+    // si el password es valido genero el token
+    const token = jsonwebtoken.sign(
+      { id: usuarioLogueado._id },
+      config.secret,
+      {
+        expiresIn: 60 * 60 * 24,
+      }
+    );
+    // modifico el sessionState a true para que pueda loguearse
+    usuarioLogueado.sessionState = true;
+    usuarioLogueado.save();
+
+    res.status(200).json({
+      auth: true,
+      token: token,
+    });
+  } catch (error) {
+    console.log("Error de login:" + error);
+    res.status(500).json({
+      mensaje: "Usuario no registrado",
+    });
+  }
+};
+
+//LOGOUT
+loginCtrl.logout = async (req, res) => {
+  try {
+    // busco con el token
+
+    const usuarioBuscado = await Usuario.findById(req.body.usuarioId);
+    if (usuarioBuscado) {
+      // validamos primero el session state
+      if (usuarioBuscado.sessionState) {
+        // cerramos la sesion
+        usuarioBuscado.sessionState = false;
+        usuarioBuscado.save();
+        return res.status(200).json({
+          auth: true,
+          mensaje: "Sesion cerrada correctamente",
+        });
+      } else {
+        //si la sesion ya está cerrada devolver error
+        return res.status(500).json({
+          mensaje: "La sesion no está abierta",
+        });
+      }
+    } else {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      auth: false,
+      token: null,
+      mensaje: "Error al cerrar sesion",
+    });
   }
 };
 
@@ -169,18 +167,16 @@ loginCtrl.eliminarUsuario = async (req, res) => {
     const idUsuario = req.params.id;
     // busco si existe primero
     const usuarioBuscado = await Usuario.findById(idUsuario);
-    if(usuarioBuscado){
+    if (usuarioBuscado) {
       await Usuario.findByIdAndRemove(idUsuario);
       res.status(200).json({
         mensaje: "Usuario eliminado correctamente",
       });
-    }else{
+    } else {
       return res.status(404).json({
-        mensaje:'Usuario no encontrado!'
-      })
+        mensaje: "Usuario no encontrado!",
+      });
     }
-    
-  
   } catch (error) {
     console.log(error);
     return res.status(500).json();
