@@ -14,15 +14,18 @@ const userSchema = new Schema({
         required: true
     },
     email: {
-        type:String,
+        type: String,
         required:true
     },
     userType: {
         type: String
     },
-
-    statusUser: {
+    userActive: {
         type: Boolean,
+        required:true
+    },
+    sessionState:{
+        type:Boolean,
         required:true
     }
 },

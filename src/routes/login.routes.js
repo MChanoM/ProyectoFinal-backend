@@ -1,13 +1,16 @@
 import { Router } from "express";
 import loginCtrl from "../controllers/login.controller";
-import verifyToken from '../controllers/verifytoken';
+import verifyToken from '../verifytoken';
 
-const { login, signUp,crearTipoUsuario, autenticar } = loginCtrl;
+const { login, logout, signUp, crearTipoUsuario, autenticar, eliminarUsuario } = loginCtrl;
 
 const router = Router();
 
 router.route('/login')
     .post(login) // en el login se genera el token
+
+router.route('/logout')
+    .post(verifyToken,logout)
 
 
 router.route('/signup')
@@ -19,6 +22,9 @@ router.route('/me')
 
 router.route('/crear-tipo')
     .post(crearTipoUsuario)
+
+router.route('/eliminar-usuario/:id')
+    .delete(eliminarUsuario)
 
 
 export default router;

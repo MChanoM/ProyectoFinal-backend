@@ -1,10 +1,10 @@
-import { verify } from "jsonwebtoken";
 import jsonwebtoken from 'jsonwebtoken';
-import config from '../config';
+import config from './config';
 
 
 
-// creo un middleware para pasarselo a todos los controladores que lo necesiten
+// creo un middleware para pasarselo a todos los controladores que lo necesiten 
+// lamentablemente no lo puedo usar en index.js xq no quiero que se ejecute siempre (en el login y signup no quiero q se ejecute)
 const verifyToken = (req,res,next) => {
      // traigo el token del front a traves de x-access-token
     const token = req.headers['x-access-token'];
