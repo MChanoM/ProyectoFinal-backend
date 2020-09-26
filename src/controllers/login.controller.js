@@ -1,5 +1,4 @@
 import Usuario from "../models/usuarios";
-import TiposUsuarios from "../models/tiposusuario";
 import jsonwebtoken from "jsonwebtoken";
 import config from "../config";
 
@@ -53,10 +52,11 @@ loginCtrl.login = async (req, res) => {
     const usuarioLogueado = await Usuario.findOne({
       usuario: usuario,
     });
+    // verifico que exista el usuario
     if(usuarioLogueado){
-      // valido password
+      // valido password con el metodo validatePassword que cree en el modelo
     const passwordIsValid = await usuarioLogueado.validatePassword(password);
-    // console.log(passwordIsValid);
+    // si no es valida la contraseña terminamos acá
     if (!passwordIsValid) {
       return res.status(401).json({
         auth: false,
@@ -76,10 +76,15 @@ loginCtrl.login = async (req, res) => {
     usuarioLogueado.sessionState = true;
     usuarioLogueado.save();
 
-    res.status(200).json({
-      auth: true,
-      token: token,
-    });
+    // res.cookie('tokennewspro',token,{maxAge: 60*60*24, httpOnly:true, secure:false});
+    res.json({
+      auth:true,
+      token:token
+    })
+    
+
+
+    
     }else{
       return res.status(404).json({
         mensaje:"El usuario no existe"
@@ -97,13 +102,13 @@ loginCtrl.login = async (req, res) => {
 //LOGOUT
 loginCtrl.logout = async (req, res) => {
   try {
-    // busco con el token
-
+    // busco con el token primero con el middleware x eso uso el usuarioId de la funcion verificarToken
     const usuarioBuscado = await Usuario.findById(req.body.usuarioId);
+    // verifico si existe el usuario
     if (usuarioBuscado) {
-      // validamos primero el session state
+      // si existe validamos primero el session state
       if (usuarioBuscado.sessionState) {
-        // cerramos la sesion
+        // el sessionState está en true asiq cerramos la sesion
         usuarioBuscado.sessionState = false;
         usuarioBuscado.save();
         return res.status(200).json({
@@ -111,12 +116,13 @@ loginCtrl.logout = async (req, res) => {
           mensaje: "Sesion cerrada correctamente",
         });
       } else {
-        //si la sesion ya está cerrada devolver error
+        //si la sesion ya estaba cerrada de antes devolver error
         return res.status(500).json({
           mensaje: "La sesion no está abierta",
         });
       }
     } else {
+      // si el usuario no existe
       return res.status(404).json({
         mensaje: "Usuario no encontrado",
       });

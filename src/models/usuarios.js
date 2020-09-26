@@ -17,9 +17,10 @@ const userSchema = new Schema({
         type: String,
         required:true
     },
-    userType: {
-        type: String
-    },
+    userType: [{
+        ref:"Role",
+        type:Schema.Types.ObjectId
+    }],
     userActive: {
         type: Boolean,
         required:true
@@ -40,9 +41,10 @@ userSchema.methods.encryptPassword = async (password) =>{
     return bcrypt.hash(password, salt);
 }
 
-
+// no usamos funcion flecha y usamos funcion de ecmas5 para usar el "this"
 userSchema.methods.validatePassword = function(password){
-    return bcrypt.compare(password,this.password);
+    // usamos el metodo compare de bcrypt para comparar ambas passwords
+    return bcrypt.compare(password,this.password); //devuelve true/false
 }
 
 const Usuario = mongoose.model('Usuario',userSchema);

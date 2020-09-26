@@ -1,5 +1,6 @@
 import { Router } from "express";
 import categoriaController from "../controllers/categoria.controllers";
+import verifyToken from '../verifytoken';
 
 const {
   crearCategoria,
@@ -10,7 +11,9 @@ const {
 
 const router = Router();
 
-router.route("/").get(listarCategorias).post(crearCategoria);
+router.route("/")
+    .get(verifyToken,listarCategorias)
+    .post(verifyToken,crearCategoria);
 
 router.route("/:idCategoria").delete(eliminarCategoria).put(editarCategoria);
 

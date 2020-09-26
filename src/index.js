@@ -6,6 +6,7 @@ import './database';
 import noticiaRouter from './routes/noticia.routes';
 import categoriaRouter from './routes/categoria.routes';
 import loginRouter from './routes/login.routes';
+import cookieParser from 'cookie-parser';
 // import verifyToken from './controllers/verifytoken';
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
+app.use(cookieParser());
+
 // app.use(verifyToken);
 
 // aqui agrego la carpeta public
