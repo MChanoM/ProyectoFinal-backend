@@ -12,7 +12,7 @@ loginCtrl.signUp = async (req, res) => {
     const nuevoUsuario = new Usuario({
       usuario,
       password,
-      userType,
+      role,
       userActive,
       email,
       sessionState,
@@ -77,7 +77,7 @@ loginCtrl.login = async (req, res) => {
     usuarioLogueado.save();
 
     // res.cookie('tokennewspro',token,{maxAge: 60*60*24, httpOnly:true, secure:false});
-    res.json({
+    res.status(200).json({
       auth:true,
       token:token
     })

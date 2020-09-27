@@ -1,6 +1,8 @@
 import { Router } from "express";
 import categoriaController from "../controllers/categoria.controllers";
-import verifyToken from '../verifytoken';
+import verifyToken from '../middlewares/verifytoken';
+import verifyRole from '../middlewares/verifyrole';
+
 
 const {
   crearCategoria,
@@ -9,12 +11,16 @@ const {
   editarCategoria,
 } = categoriaController;
 
+const { isAdmin, isEditor } = verifyRole;
+
 const router = Router();
 
 router.route("/")
     .get(verifyToken,listarCategorias)
-    .post(verifyToken,crearCategoria);
+    .post(verifyToken, isAdmin,crearCategoria);
 
-router.route("/:idCategoria").delete(eliminarCategoria).put(editarCategoria);
+router.route("/:idCategoria")
+    .delete(verifyToken, isAdmin, eliminarCategoria)
+    .put(verifyToken, isAdmin, editarCategoria);
 
 export default router;

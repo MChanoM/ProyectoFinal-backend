@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import noticiaController from '../controllers/noticia.controllers';
-import verifyToken from '../verifytoken';
+import verifyToken from '../middlewares/verifytoken';
+import verifyRole from '../middlewares/verifyrole';
 
 const { getPrueba, crearNoticia, listarNoticias, borrarNoticia, editarNoticia } = noticiaController;
+const { isAdmin, isEditor } = verifyRole;
+
 const router = Router();
 
 router.route('/')
@@ -10,7 +13,7 @@ router.route('/')
     .post(verifyToken, crearNoticia)
 
 router.route('/:id')
-    .delete(verifyToken, borrarNoticia)
-    .put(verifyToken, editarNoticia)
+    .delete(verifyToken, isAdmin, borrarNoticia)
+    .put([verifyToken, isEditor], editarNoticia)
 
 export default router;

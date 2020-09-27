@@ -1,8 +1,8 @@
 import { Router } from "express";
 import loginCtrl from "../controllers/login.controller";
-import verifyToken from '../verifytoken';
+import verifyToken from '../middlewares/verifytoken';
 
-const { login, logout, signUp, crearTipoUsuario, autenticar, eliminarUsuario } = loginCtrl;
+const { login, logout, signUp, autenticar } = loginCtrl;
 
 const router = Router();
 
@@ -19,12 +19,8 @@ router.route('/logout')
 router.route('/me')
     .get(verifyToken, autenticar) // verifica token antes de continuar
 
-router.route('/crear-tipo')
-    .post(crearTipoUsuario)
 
-// eliminar usuario es solo para entorno de desarrollo
-// router.route('/eliminar-usuario/:id')
-//     .delete(eliminarUsuario)
+
 
 
 export default router;
