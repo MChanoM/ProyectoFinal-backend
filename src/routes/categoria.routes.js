@@ -17,10 +17,10 @@ const router = Router();
 
 router.route("/")
     .get(verifyToken,listarCategorias)
-    .post(verifyToken, isAdmin,crearCategoria);
+    .post([verifyToken, isAdmin],crearCategoria);
 
 router.route("/:idCategoria")
-    .delete(verifyToken, isAdmin, eliminarCategoria)
-    .put(verifyToken, isAdmin, editarCategoria);
+    .delete([verifyToken, isAdmin], eliminarCategoria)
+    .put([verifyToken, isAdmin], editarCategoria);
 
 export default router;

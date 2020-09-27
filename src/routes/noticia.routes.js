@@ -13,7 +13,7 @@ router.route('/')
     .post(verifyToken, crearNoticia)
 
 router.route('/:id')
-    .delete(verifyToken, isAdmin, borrarNoticia)
+    .delete([verifyToken, isAdmin], borrarNoticia)
     .put([verifyToken, isEditor], editarNoticia)
 
 export default router;
