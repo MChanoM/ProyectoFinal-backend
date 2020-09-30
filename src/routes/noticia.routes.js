@@ -9,7 +9,7 @@ const { isAdmin, isEditor } = verifyRole;
 const router = Router();
 
 router.route('/')
-    .get(verifyToken, listarNoticias)
+    .get(listarNoticias)
     .post(verifyToken, crearNoticia)
 
 router.route('/:id')

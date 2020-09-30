@@ -16,7 +16,7 @@ const { isAdmin, isEditor } = verifyRole;
 const router = Router();
 
 router.route("/")
-    .get(verifyToken,listarCategorias)
+    .get(listarCategorias)
     .post([verifyToken, isAdmin],crearCategoria);
 
 router.route("/:idCategoria")
