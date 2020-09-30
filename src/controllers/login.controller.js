@@ -61,9 +61,11 @@ loginCtrl.login = async (req, res) => {
 
 //LOGOUT
 loginCtrl.logout = async (req, res) => {
+  console.log(req.body._id)
   try {
     // busco con el token primero con el middleware x eso uso el usuarioId de la funcion verificarToken
-    const usuarioBuscado = await Usuario.findById(req.body.usuarioId);
+    const usuarioBuscado = await Usuario.findById(req.body._id);
+    
     // verifico si existe el usuario
     if (usuarioBuscado) {
       // si existe validamos primero el session state
