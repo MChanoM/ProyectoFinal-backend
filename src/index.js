@@ -6,6 +6,7 @@ import './database';
 import noticiaRouter from './routes/noticia.routes';
 import categoriaRouter from './routes/categoria.routes';
 import loginRouter from './routes/login.routes';
+import userRouter from './routes/usuarios.routes';
 import initialSetups from './libs/initialSetup';
 // import verifyToken from './controllers/verifytoken';
 const app = express();
@@ -38,7 +39,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Rutas
 
 app.use('/api/noticias', noticiaRouter);
-
 app.use('/api/categorias', categoriaRouter);
+app.use('/api/auth', loginRouter);
+app.use('/api/users', userRouter);
 
-app.use('/api/users', loginRouter);

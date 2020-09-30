@@ -13,6 +13,7 @@ verifyRole.isAdmin = async (req,res,next) => {
         //busco el id provisto por el verifyToken
         const user = await Usuario.findById(req.usuarioId);
         const rolUser = await Role.find({_id: {$in: user.role}});
+        console.log(rolUser.name)
         // si el rol del usuario es admin entonces continuar con la sig funcion
 
        for(let i = 0; i < rolUser.length;i++){

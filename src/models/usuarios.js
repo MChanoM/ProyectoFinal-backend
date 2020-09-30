@@ -18,8 +18,8 @@ const userSchema = new Schema({
         required:true
     },
     role: [{
-        ref:"Role",
-        type:Schema.Types.ObjectId
+        type:Schema.Types.ObjectId,
+        ref:"Role"
     }],
     userActive: {
         type: Boolean,
