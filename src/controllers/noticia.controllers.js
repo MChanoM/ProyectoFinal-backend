@@ -51,8 +51,8 @@ noticiaCtrl.listarNoticias = async (req, res) => {
 
 noticiaCtrl.borrarNoticia = async (req, res) => {
     try{
-        console.log(req.params.idNoticias); //extraemos el parametro id de la url
-        await Noticia.findByIdAndDelete(req.params.idNoticias);
+        console.log(req.params.id); //extraemos el parametro id de la url
+        await Noticia.findByIdAndDelete(req.params.id);
         res.status(200).json({
             mensaje: "Se eliminó la noticia"
         })
@@ -66,7 +66,7 @@ noticiaCtrl.borrarNoticia = async (req, res) => {
 
 noticiaCtrl.editarNoticia = async (req, res) => {
     try{
-        await Noticia.findByIdAndUpdate(req.params.idNoticias, req.body);
+        await Noticia.findByIdAndUpdate(req.params.id, req.body);
         res.status(200).json({
             mensaje: "Se actualizó la noticia"
         })
