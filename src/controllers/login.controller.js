@@ -34,7 +34,7 @@ loginCtrl.login = async (req, res) => {
     );
     // modifico el sessionState a true para que pueda loguearse
     usuarioLogueado.sessionState = true;
-    usuarioLogueado.save();
+    await usuarioLogueado.save();
 
     // res.cookie('tokennewspro',token,{maxAge: 60*60*24, httpOnly:true, secure:false});
     res.status(200).json({
@@ -72,7 +72,7 @@ loginCtrl.logout = async (req, res) => {
       if (usuarioBuscado.sessionState) {
         // el sessionState está en true asiq cerramos la sesion
         usuarioBuscado.sessionState = false;
-        usuarioBuscado.save();
+        await usuarioBuscado.save();
         return res.status(200).json({
           auth: true,
           mensaje: "Sesion cerrada correctamente",
