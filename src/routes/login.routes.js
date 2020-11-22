@@ -2,7 +2,7 @@ import { Router } from "express";
 import loginCtrl from "../controllers/login.controller";
 import verifyToken from '../middlewares/verifytoken';
 
-const { login, logout} = loginCtrl;
+const { login, logout, recuperar} = loginCtrl;
 
 const router = Router();
 
@@ -13,6 +13,9 @@ router.route('/login')
 router.route('/logout')
     .post(verifyToken,logout)
 
+router.route("/recuperar")
+    .get(verifyToken, recuperar)
+    .post(verifyToken, recuperar);
 
 export default router;
 

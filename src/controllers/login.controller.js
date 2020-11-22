@@ -99,7 +99,26 @@ loginCtrl.logout = async (req, res) => {
   }
 };
 
-
+//recuperar usuario
+loginCtrl.recuperar = async (req, res) => {
+  try {
+    // en caso de que haya token lo vamos a decodificar para verificarlo
+    // busco el id decodificado en la bd y le digo q no me traiga la password xq no la quiero
+    const usuarioBuscado = await Usuario.find(req.body).populate({path:'role',select:'name'});
+    console.log(usuarioBuscado.email);
+    if (!usuarioBuscado.email) {
+      return res.status(404).send("No user found");
+    } else {
+      res.json(usuarioBuscado);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      users: false,
+      mensaje: "no se encontró usuario",
+    });
+  }
+};
 
 
 
