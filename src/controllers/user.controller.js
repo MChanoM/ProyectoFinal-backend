@@ -21,6 +21,25 @@ userCtrl.listarUsuarios = async (req,res) => {
   }
 }
 
+// recuperar
+userCtrl.recuperar = async (req, res) => {
+  try {
+    // en caso de que haya token lo vamos a decodificar para verificarlo
+    // busco el id decodificado en la bd y le digo q no me traiga la password xq no la quiero
+    const usuarioBuscado = await Usuario.findById(req.email);
+    if (!usuarioBuscado) {
+      return res.status(404).send("No user found");
+    } else {
+      res.json(usuarioBuscado);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      auth: false,
+      mensaje: "Token invalido",
+    });
+  }
+};
 
 // enviar mis credenciales
 userCtrl.autenticar = async (req, res) => {
