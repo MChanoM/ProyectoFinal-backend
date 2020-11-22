@@ -218,8 +218,8 @@ userCtrl.recuperar = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      auth: false,
-      mensaje: "Token invalido",
+      users: false,
+      mensaje: "no se encontró usuario",
     });
   }
 };
