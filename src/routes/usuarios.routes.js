@@ -4,7 +4,7 @@ import userCtrl from "../controllers/user.controller";
 import verifyRole from '../middlewares/verifyrole';
 
 
-const { enviarRoles, autenticar, listarUsuarios, nuevoUsuario, cambiarEstado, editarUsuario, signUp } = userCtrl;
+const { enviarRoles, autenticar, listarUsuarios, nuevoUsuario, cambiarEstado, editarUsuario, signUp, recuperar } = userCtrl;
 const { isAdmin, isEditor } = verifyRole;
 
 const router = Router();
@@ -31,5 +31,7 @@ router.route("/editar/:id")
 // router.route("/signup")
 //     .post(signUp);
 
+router.route("/recuperar")
+    .post(verifyToken, recuperar);
 
 export default router;
