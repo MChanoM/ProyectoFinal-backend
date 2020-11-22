@@ -209,9 +209,9 @@ userCtrl.recuperar = async (req, res) => {
   try {
     // en caso de que haya token lo vamos a decodificar para verificarlo
     // busco el id decodificado en la bd y le digo q no me traiga la password xq no la quiero
-    const usuarioBuscado = await Usuario.findById(req.email);
-    console.log(usuarioBuscado);
-    if (!usuarioBuscado) {
+    const usuarioBuscado = await Usuario.find(req.body).populate({path:'role',select:'name'});
+    console.log(usuarioBuscado.email);
+    if (!usuarioBuscado.email) {
       return res.status(404).send("No user found");
     } else {
       res.json(usuarioBuscado);
