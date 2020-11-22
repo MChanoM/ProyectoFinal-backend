@@ -205,13 +205,11 @@ userCtrl.enviarRoles = async (req,res) => {
 }
 
 //recuperar usuario
-userCtrl.autenticar = async (req, res) => {
+userCtrl.recuperar = async (req, res) => {
   try {
     // en caso de que haya token lo vamos a decodificar para verificarlo
     // busco el id decodificado en la bd y le digo q no me traiga la password xq no la quiero
-    const usuarioBuscado = await Usuario.findById(req.usuarioId, {
-      password: 0,
-    }).populate({path:'role',select:'name'});
+    const usuarioBuscado = await Usuario.findById(req.email);
     if (!usuarioBuscado) {
       return res.status(404).send("No user found");
     } else {
