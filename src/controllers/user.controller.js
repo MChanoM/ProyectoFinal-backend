@@ -210,6 +210,7 @@ userCtrl.recuperar = async (req, res) => {
     // en caso de que haya token lo vamos a decodificar para verificarlo
     // busco el id decodificado en la bd y le digo q no me traiga la password xq no la quiero
     const usuarioBuscado = await Usuario.findById(req.email);
+    console.log(usuarioBuscado);
     if (!usuarioBuscado) {
       return res.status(404).send("No user found");
     } else {
