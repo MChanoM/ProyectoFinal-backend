@@ -32,7 +32,7 @@ router.route("/editar/:id")
 //     .post(signUp);
 
 router.route("/recuperar")
-    .get(verifyToken, recuperar)
-    .post(verifyToken, recuperar);
+    .get(recuperar)
+    .post(recuperar);
 
 export default router;
