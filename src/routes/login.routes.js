@@ -14,8 +14,7 @@ router.route('/logout')
     .post(verifyToken,logout)
 
 router.route("/recuperar")
-    .get(verifyToken, recuperar)
-    .post(verifyToken, recuperar);
+    .post(recuperar);
 
 export default router;
 
